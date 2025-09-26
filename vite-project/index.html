@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Todo App</title>
+    <link rel="stylesheet" href="/public/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <h1>My Todo List</h1>
+    <form id="todo-form">
+      <input type="text" id="todo-input" placeholder="Add a new task" required>
+      <button type="submit">Add</button>
+    </form>
+
+    <ul id="todo-list"></ul>
+
+    <div class="toolbar">
+      <button id="clear-completed" type="button" title="Delete all completed items">
+        Clear completed
+      </button>
+    </div>
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

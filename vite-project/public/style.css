@@ -1,0 +1,84 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: aliceblue;
+    margin: 0;
+    padding: 2rem;
+}
+
+h1 {
+    text-align: center;
+    color: black;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+input[type="text"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 250px;
+    margin-right: 0.5rem;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: blue;
+    color: aliceblue;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover { background-color: darkblue; }
+
+ul {
+    list-style: none;
+    padding: 0;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+li {
+    background: white;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+li.done {
+    color: darkgrey;
+    text-decoration: line-through;
+    background-color: lightgray;
+}
+
+li input.toggle {
+  cursor: pointer;
+  margin-right: 0.25rem;
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.actions {
+    margin-left: auto;
+    display: flex;
+    gap: 0.25rem;
+}
+
+.toolbar {
+    max-width: 400px;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
