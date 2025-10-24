@@ -3,70 +3,86 @@ const input = document.getElementById("todo-input");
 const list = document.getElementById("todo-list");
 const clearList = document.getElementById("clear-completed");
 
+function createActions() {
+    const actions = document.createElement("div");
+        actions.className = "actions";
+
+    const editList = document.createElement("button");
+        editList.type = "button";
+        editList.title = "Edit this item";
+        const editIcon = document.createElement("img");
+            editIcon.src = "pencil.jpg"
+            editIcon.alt = "edit"
+            editIcon.className = "icon"
+        editList.appendChild(editIcon);
+    actions.appendChild(editList);
+
+    const delList = document.createElement("button");
+        delList.type = "button";
+        delList.title = "Delete this item";
+        const delIcon = document.createElement("img");
+            delIcon.src = "trash.jpg"
+            delIcon.alt = "delete"
+            delIcon.className = "icon"
+        delList.appendChild(delIcon);
+    actions.appendChild(delList);
+
+    return {actions, editList, delList};
+}
+
+function createEditInput (currentText) {
+    const editor = document.createElement("input");
+        editor.type = "text";
+        editor.value = currentText;
+        editor.className = "editing";
+        editor.setAttribute("aria-label", "Edit todo text");
+    return editor;
+}
+
 function createTodoItem(text) {
     const li = document.createElement("li");
 
     const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.className = "toggle";
-    checkbox.setAttribute("aria-label", "Complete");
+        checkbox.type = "checkbox";
+        checkbox.className = "toggle";
+        checkbox.setAttribute("aria-label", "Complete");
     li.appendChild(checkbox);
 
     const span = document.createElement("span");
-    span.textContent = text;
-    span.title = "Click pencil to edit";
+        span.textContent = text;
+        span.title = "Click pencil to edit";
     li.appendChild(span);
 
-    const actions = document.createElement("div");
-    actions.className = "actions";
-
-    const editList = document.createElement("button");
-    editList.type = "button";
-    editList.title = "Edit this item";
-    editList.innerHTML = '<img src="pencil.jpg" alt="edit" class="icon">';
-    actions.appendChild(editList);
-
-    const delList = document.createElement("button");
-    delList.type = "button";
-    delList.title = "Delete this item";
-    delList.innerHTML = '<img src="trash.jpg" alt="delete" class="icon">';
-    actions.appendChild(delList);
-
+    const {actions, editList, delList} = createActions();
     li.appendChild(actions);
 
-    checkbox.addEventListener("change", () => {
+    checkbox.addEventListener("click", () => {
         li.classList.toggle("done", checkbox.checked);
     });
 
     editList.addEventListener("click", () => {
-        if (li.querySelector("input.editing")) return;
+        if (li.querySelector("input.editing")) {
+            return;
+        } else {
+            const currentText = span.textContent;
+            const editor = createEditInput(currentText);
 
-        const current = span.textContent;
-        const editor = document.createElement("input");
-        editor.type = "text";
-        editor.value = current;
-        editor.className = "editing";
-        editor.setAttribute("aria-label", "Edit todo text");
+            li.replaceChild(editor, span);
+                editor.focus();
+                editor.setSelectionRange(editor.value.length, editor.value.length);
 
-        li.replaceChild(editor, span);
-        editor.focus();
-        editor.setSelectionRange(editor.value.length, editor.value.length);
-
-        const saveNewText = () => {
-            const newText = editor.value.trim();
-            if (newText === "") {
-                li.removeEventListener();
-                return;
-            }
-            span.textContent = newText;
-            li.replaceChild(span, editor);
-        };
-
-        const cancel = () => {
-            li.replaceChild(span, editor);
-        };
-
-        editor.addEventListener("blur", saveNewText);
+            const saveNewText = () => {
+                const newText = editor.value.trim();
+                if (newText === "") {
+                    li.remove();
+                    return;
+                } else {
+                span.textContent = newText;
+                li.replaceChild(span, editor);
+                }
+            };
+            editor.addEventListener("blur", saveNewText);
+        }
     });
 
     delList.addEventListener("click", () => {
@@ -79,12 +95,14 @@ function createTodoItem(text) {
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     const text = input.value.trim();
-    if (text === "") return;
-
-    const li = createTodoItem(text);
-    list.appendChild(li);
-    input.value = "";
-    input.focus();
+    if (text === "") {
+        return;
+    } else {
+        const li = createTodoItem(text);
+        list.appendChild(li);
+        input.value = "";
+        input.focus();
+    }
 });
 
 clearList.addEventListener("click", () => {
